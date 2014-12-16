@@ -1,0 +1,13 @@
+FROM buildpack-deps:jessie
+
+RUN export DEBIAN_FRONTEND=noninteractive \
+ && apt-get -q update \
+ && apt-get -qqy upgrade \
+ && apt-get -qqy install dracut dracut-network
+
+# RUN git clone http://git.kernel.org/cgit/boot/dracut/dracut.git/ /dracut/
+RUN wget -qO /tmp/dracut.tar.gz https://www.kernel.org/pub/linux/utils/boot/dracut/dracut-040.tar.gz \
+ && mkdir -p /dracut/ && tar --strip=1 -C /dracut/ -xf /tmp/dracut.tar.gz \
+ && rm -f /tmp/dracut.tar.gz
+WORKDIR /dracut/
+RUN ./configure && make

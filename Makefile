@@ -5,3 +5,6 @@ build:	Dockerfile
 
 release:
 	docker push $(NAME)
+
+shell:  build
+	docker run -it --rm $(NAME) /bin/bash
